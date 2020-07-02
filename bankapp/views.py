@@ -26,6 +26,7 @@ def homepage(request):
     context['bank'] = Bank.objects.all()
     context['city'] = City.objects.all()
     active = "bank"
+    host_name = request.get_host()
     if request.method == 'POST':
         ifsc = request.POST.get('ifsc_code')
         bank_name = request.POST.get('b_name')
@@ -33,12 +34,12 @@ def homepage(request):
 
         if ifsc is not None:
 
-            url = f"http://127.0.0.1:8000/branch/{ifsc}"
+            url = f"http://{host_name}/branch/{ifsc}"
             data = requests.get(url)
             active = "ifsc"
             
         else:
-            url = f"http://127.0.0.1:8000/bank/{bank_name}/{city}"
+            url = f"http://{host_name}/bank/{bank_name}/{city}"
             data = requests.get(url)
             active = "bank"
             
